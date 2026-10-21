@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#131b2c">
+  <meta name="description" content="실사풍 오리지널 판타지 육성 시뮬레이션. 8년의 선택이 한 사람의 운명이 됩니다.">
+  <title>별빛 공녀 — 운명의 여덟 해</title>
+  <link rel="icon" href="assets/hero_royal.webp" type="image/webp">
+  <link rel="stylesheet" href="style.css">
+  <script src="game.js" defer></script>
+</head>
+<body>
+<div id="app" class="app">
+  <header class="masthead">
+    <div class="brand"><span class="brand-star">✦</span><div><strong>별빛 공녀</strong><small>THE EIGHT YEARS OF DESTINY · ORIGINAL FANTASY</small></div></div>
+    <div class="header-info"><span id="top-date">왕국력 1284년 · 3월</span><span class="coin">◈ <b id="top-money">0</b> G</span><span class="age-badge" id="top-age">10세</span></div>
+    <div class="header-buttons"><button class="icon-btn" id="music-btn" title="효과음 켜기/끄기">♫</button><button class="icon-btn" data-open="guide" title="게임 안내">?</button><button class="icon-btn" data-open="save" title="저장 / 불러오기">▣</button></div>
+  </header>
+  <div class="layout" id="royal-stage">
+    <nav class="sidebar" aria-label="게임 메뉴">
+      <div class="side-date"><span id="side-year">1284년</span><strong><span id="side-month">3</span><em>월</em></strong><small id="side-season">봄 · FIRST YEAR</small></div><div class="sidebar-caption">ROYAL MENU</div>
+      <button class="nav-btn active" data-view="schedule"><span>◫</span> 일정 계획 <i>01</i></button>
+      <button class="nav-btn" data-view="study"><span>✎</span> 교육 과정 <i>02</i></button>
+      <button class="nav-btn" data-view="work"><span>⚒</span> 아르바이트 <i>03</i></button>
+      <button class="nav-btn" data-view="town"><span>⌂</span> 왕도 외출 <i>04</i></button>
+      <button class="nav-btn" data-view="adventure"><span>⚔</span> 무사 수행 <i>05</i></button>
+      <button class="nav-btn" data-view="palace"><span>♛</span> 궁정 사교 <i>06</i></button>
+      <button class="nav-btn" data-view="relations"><span>♡</span> 관계와 이야기 <i>07</i></button>
+      <button class="nav-btn" data-view="records"><span>✧</span> 성장 기록 <i>08</i></button>
+      <div class="sidebar-foot"><span>✦</span><p>“별이 내린 한 번의 인생,<br>그 끝은 당신의 선택에 달려 있습니다.”</p></div>
+    </nav>
+    <main class="central">
+      <section class="hero-scene" id="hero-scene" aria-label="이야기 장면">
+        <div class="scene-vignette"></div><div class="scene-particles" aria-hidden="true">✦　·　✧</div><div class="scene-stamp">A TALE WRITTEN BY THE STARS <span>✦</span></div>
+        <div class="scene-info"><span class="overline" id="scene-kicker">SPRING · THE FIRST YEAR</span><h1 id="scene-title">별의 축복을 받은 아이</h1><p id="scene-subtitle">오늘의 선택이 내일의 운명을 바꿉니다.</p></div>
+        <img id="hero-image" class="hero-figure" src="assets/hero_idle.webp" alt="왕국의 공녀, 실사풍 판타지 공녀의 상징적 캐릭터 이미지">
+        <div class="hero-shortcuts"><button type="button" class="hero-talk" data-hero-talk="1" title="대화하기">♡ <span>대화하기</span></button><button type="button" class="hero-talk" data-scroll="content" title="현재 메뉴 열기">⌄ <span>활동 선택</span></button></div>
+        <div class="dialogue"><div class="dialogue-portrait"><img src="assets/hero_idle.webp" alt="공녀 초상화"></div><div class="dialogue-copy"><div class="dialogue-name" id="dialogue-name">루미엘</div><div id="dialogue-text">아버지, 오늘은 어떤 하루가 기다리고 있나요?</div></div><span class="dialogue-next">◆</span></div>
+      </section>
+
+    </main>
+    <aside class="ledger" aria-label="능력치 및 게임 상태">
+      <div class="portrait-banner"><div class="banner-bg"></div><div><small>DAUGHTER PROFILE</small><h2 id="char-name">루미엘</h2><p id="char-detail">10세 · 별의 수호를 받는 공녀</p></div></div>
+      <div class="ledger-tabs"><button class="ledger-tab active" data-stat="basic">기본</button><button class="ledger-tab" data-stat="combat">전투</button><button class="ledger-tab" data-stat="social">교양</button><button class="ledger-tab" data-stat="reputation">명성</button></div>
+      <div id="stat-list" class="stat-list"></div>
+      <div class="ledger-divider"></div>
+      <div class="mini-title">CURRENT CONDITION</div>
+      <div id="condition" class="condition"></div>
+      <div class="ledger-divider"></div>
+      <div class="mini-title">THIS MONTH · THREE CHAPTERS</div><div id="hud-plan" class="hud-plan"></div><button type="button" class="hud-execute" data-run-month="1">✦ 이번 달 진행 <span>➜</span></button>
+      <div class="ledger-divider"></div>
+      <div class="mini-title">ROYAL JOURNAL <span id="log-counter"></span></div>
+      <div id="short-log" class="short-log"></div>
+    </aside>
+  </div>
+  <div class="action-dock" aria-label="활동 바로가기">
+    <button class="dock-card" data-view="study"><img src="assets/dock/study.webp" alt=""><span class="dock-overlay"><strong>📖 교육</strong><small>가능성을 키웁니다</small></span></button>
+    <button class="dock-card" data-view="work"><img src="assets/dock/work.webp" alt=""><span class="dock-overlay"><strong>⚒ 아르바이트</strong><small>경험과 금화를 얻어요</small></span></button>
+    <button class="dock-card" data-view="town"><img src="assets/dock/town.webp" alt=""><span class="dock-overlay"><strong>♜ 왕도 외출</strong><small>왕국을 둘러봅니다</small></span></button>
+    <button class="dock-card" data-view="palace"><img src="assets/dock/palace.webp" alt=""><span class="dock-overlay"><strong>♛ 궁정 사교</strong><small>새로운 인연을 맺어요</small></span></button>
+    <button class="dock-card" data-view="adventure"><img src="assets/dock/adventure.webp" alt=""><span class="dock-overlay"><strong>⚔ 무사 수행</strong><small>미지의 세계로 향해요</small></span></button>
+    <button class="dock-card" data-quick-rest="1"><img src="assets/dock/rest.webp" alt=""><span class="dock-overlay"><strong>☾ 휴식</strong><small>몸과 마음을 돌봅니다</small></span></button>
+  </div>
+  <div class="content-heading"><span>✦ THE CHRONICLES OF STARLIGHT</span><p>선택이 쌓여 하나의 운명이 됩니다.</p><button type="button" data-stage="1">↑ 공녀의 방으로</button></div>
+  <section id="view-content" class="view-content" aria-live="polite"></section>
+  <footer class="footer"><span>✦ &nbsp;독립 제작 팬 헌정작 · 원작의 공식 리마스터/유통물이 아닙니다.</span><span>인터넷 연결·외부 CDN·서버 불필요 &nbsp;·&nbsp; Chrome / Edge 권장</span></footer>
+</div>
+<div id="modal-root" class="modal-root" aria-live="assertive"></div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+</body>
+</html>
