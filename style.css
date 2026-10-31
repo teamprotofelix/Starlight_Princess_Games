@@ -61,3 +61,69 @@ html{scroll-behavior:smooth;scroll-padding-top:64px}body{background:#0b080c;colo
 @media(max-width:650px){.memory-gallery{gap:5px}.memory-shot{min-height:195px}.memory-shot-number{font-size:9px;padding:3px 5px}.memory-story{left:5px;right:5px}.memory-story b{font-size:12px}.memory-story p{font-size:9px;max-height:52px;overflow:hidden}.memory-bottom{gap:9px;align-items:stretch;flex-direction:column}.memory-bottom .primary{align-self:flex-end}.report-photo{width:60px;height:50px}}
 /* Portrait framing: foreground figure occupies most of the hero scene. */
 @media (min-width:1351px){.hero-figure{height:clamp(830px,100vh,1130px);bottom:-32%;right:-8%}}
+
+/* === v3 SPRITE THEATRE: real eight-frame WebP figure animation, stage props, parallax and responsive controls === */
+#animation-root{display:none;position:fixed;inset:0;z-index:100;background:#09050bdc;backdrop-filter:blur(9px)}
+#animation-root.active{display:block}#animation-root .theatre-backdrop{position:absolute;inset:0;padding:clamp(7px,2vh,22px);display:grid;place-items:center;overflow-y:auto}
+.theatre-shell{width:min(1180px,100%);max-height:96vh;display:flex;flex-direction:column;overflow:hidden;border:3px ridge #f2c884;outline:1px solid #906341;outline-offset:-9px;background:linear-gradient(135deg,#39222b,#1a101b 70%);box-shadow:0 30px 100px #000,0 0 36px #d9a25e40;color:#fff0dd;position:relative}
+.theatre-shell:before{content:'';position:absolute;inset:7px;pointer-events:none;z-index:15;border:1px solid #d5b27470}
+.theatre-top{flex:none;min-height:80px;display:flex;justify-content:space-between;align-items:center;padding:12px 25px;border-bottom:2px ridge #ab824d;background:linear-gradient(90deg,#342229,#5e3b32,#24151f);gap:16px}
+.theatre-top small{display:block;letter-spacing:2.5px;color:#ffe3b4;font-size:10px}.theatre-top h2{font:clamp(20px,2.8vw,33px) Georgia,'Malgun Gothic',serif;margin:3px 0 0;color:#fff0d8}
+.theatre-round{font-weight:750;color:#ffe8c2;text-align:right}.theatre-pips{display:flex;gap:6px;justify-content:flex-end;margin-top:6px}.theatre-pip{border:1px solid #8d6b51;border-radius:50%;font:11px Georgia;width:21px;height:21px;display:grid;place-items:center;color:#b59a83}.theatre-pip.active{background:#ab6b43;border-color:#f3d092;color:#fff}.theatre-pip.done{background:#4c7157;border-color:#b5d6ad;color:#fff}
+.theatre-world{height:clamp(260px,57vh,610px);min-height:190px;flex-shrink:1;position:relative;isolation:isolate;background-position:center;background-size:cover;overflow:hidden;--as:1;--theatre-speed:1;--sway:0px}
+.theatre-world:before{content:'';position:absolute;inset:-3%;background:radial-gradient(ellipse at 50% 75%,transparent 35%,#160c1788 96%);z-index:1;pointer-events:none}
+.theatre-distant{position:absolute;z-index:1;left:74%;top:8%;font-size:70px;color:#ffe6bc44;filter:blur(1px);animation:theatre-sun 6s ease-in-out infinite alternate}
+.theatre-particle-field{position:absolute;inset:0;z-index:5;pointer-events:none}.theatre-spark{position:absolute;top:var(--sy);left:var(--sx);font-size:clamp(12px,1.8vw,23px);font-style:normal;color:#ffdeacb5;text-shadow:0 0 12px #fff2bc;animation:theatre-float var(--sd) ease-in-out var(--sl) infinite}
+.theatre-floor{position:absolute;z-index:1;inset:auto 0 0;height:28%;background:linear-gradient(0deg,#180f1ddb,transparent)}
+.theatre-actor-wrap{position:absolute;width:250px;height:392px;z-index:4;bottom:6%;left:calc(49% - 125px);cursor:pointer;transform-origin:bottom center;filter:drop-shadow(0 15px 16px #080509c0);animation:actor-idle 3.4s ease-in-out infinite}
+.theatre-actor-wrap:focus-visible{outline:2px dashed #ffe0a5;border-radius:9px}
+.theatre-avatar{position:relative;z-index:2;width:250px;height:392px;background-repeat:no-repeat;background-position:0 0;background-size:2000px 392px;animation:theatre-frames calc(1.38s / var(--theatre-speed)) steps(8) infinite}
+.theatre-actor-shadow{position:absolute;z-index:1;bottom:0;left:23%;width:55%;height:17px;border-radius:50%;background:#120a1699;filter:blur(7px)}
+@keyframes theatre-frames{0%{background-position:0 0}100%{background-position:-2000px 0}}
+@keyframes actor-idle{0%,100%{transform:scale(var(--as)) translateY(0)}50%{transform:scale(var(--as)) translateY(-8px)}}
+@keyframes actor-travel{0%{transform:scale(var(--as)) translate(-25vw,1px)}35%{transform:scale(var(--as)) translate(-12vw,-7px)}65%{transform:scale(var(--as)) translate(0,-1px)}100%{transform:scale(var(--as)) translate(7vw,0)}}
+@keyframes actor-fight{0%,30%,100%{transform:scale(var(--as)) translate(0,0) rotate(0)}46%{transform:scale(var(--as)) translate(10vw,-15px) rotate(5deg)}62%{transform:scale(var(--as)) translate(11vw,0) rotate(-6deg)}}
+@keyframes actor-dance{0%,100%{transform:scale(var(--as)) translateX(-20px) rotate(-7deg)}50%{transform:scale(var(--as)) translateX(32px) rotate(8deg)}}
+@keyframes actor-write{0%,100%{transform:scale(var(--as)) translate(0,0) rotate(-2deg)}50%{transform:scale(var(--as)) translate(12px,6px) rotate(4deg)}}
+@keyframes actor-cook{0%,100%{transform:scale(var(--as)) translateX(-6px) rotate(-4deg)}50%{transform:scale(var(--as)) translateX(18px) rotate(4deg)}}
+@keyframes actor-cast{0%,100%{transform:scale(var(--as)) translate(0,0)}50%{transform:scale(var(--as)) translate(0,-26px)}}
+.scene-walk .theatre-actor-wrap{animation:actor-travel calc(6.2s / var(--theatre-speed)) linear infinite}.scene-sword .theatre-actor-wrap{animation:actor-fight calc(2.2s / var(--theatre-speed)) ease-in-out infinite}.scene-dance .theatre-actor-wrap{animation:actor-dance calc(2.1s / var(--theatre-speed)) ease-in-out infinite}
+.scene-write .theatre-actor-wrap,.scene-pray .theatre-actor-wrap{animation:actor-write calc(3.1s / var(--theatre-speed)) ease-in-out infinite}.scene-cook .theatre-actor-wrap,.scene-work .theatre-actor-wrap{animation:actor-cook calc(2.1s / var(--theatre-speed)) ease-in-out infinite}.scene-cast .theatre-actor-wrap{animation:actor-cast calc(2.1s / var(--theatre-speed)) ease-in-out infinite}
+.theatre-prop{position:absolute;z-index:5;font-size:clamp(42px,7vw,100px);line-height:1;filter:drop-shadow(0 4px 11px #100614);pointer-events:none;animation:prop-hover calc(2s / var(--theatre-speed)) ease-in-out infinite}
+.prop-one{left:18%;bottom:26%;transform-origin:center}.prop-two{right:15%;bottom:21%;animation-delay:-.8s}.prop-three{right:26%;top:13%;font-size:clamp(25px,4vw,54px);animation-delay:-1.2s}
+.scene-write .prop-one{left:16%;bottom:17%}.scene-write .prop-two{right:20%;bottom:37%;animation:prop-pen calc(.63s / var(--theatre-speed)) ease-in-out infinite}
+.scene-cook .prop-one{bottom:16%;left:15%;font-size:110px}.scene-cook .prop-two{right:21%;bottom:24%;animation:prop-stir calc(.95s / var(--theatre-speed)) ease-in-out infinite}
+.scene-sword .prop-one{left:16%;bottom:38%;font-size:110px;animation:prop-swing calc(2.2s / var(--theatre-speed)) ease-in-out infinite}.scene-sword .prop-two{right:15%;bottom:30%;animation:prop-target calc(2.2s / var(--theatre-speed)) ease-in-out infinite}
+.scene-cast .prop-one{left:19%;bottom:37%;font-size:115px;animation:prop-glow calc(1.3s / var(--theatre-speed)) ease-in-out infinite}.scene-dance .prop-one,.scene-dance .prop-two{animation:prop-music calc(2.3s / var(--theatre-speed)) ease-in-out infinite}
+.scene-pray .prop-one{bottom:20%;left:21%;animation:prop-glow calc(2.5s / var(--theatre-speed)) ease-in-out infinite}
+.scene-walk .prop-one,.scene-walk .prop-two{animation:prop-walk calc(3s / var(--theatre-speed)) ease-in-out infinite}
+.scene-rest .prop-two{animation:prop-music calc(3.7s / var(--theatre-speed)) ease-in-out infinite}
+@keyframes prop-hover{0%,100%{translate:0 0}50%{translate:0 -16px}}
+@keyframes prop-pen{0%,100%{transform:rotate(-25deg) translateY(-6px)}50%{transform:rotate(-10deg) translate(17px,12px)}}
+@keyframes prop-stir{0%,100%{transform:rotate(0)}50%{transform:rotate(35deg) translateY(-6px)}}
+@keyframes prop-swing{0%,24%,100%{transform:rotate(-27deg) translate(0,0)}46%{transform:rotate(67deg) translate(20px,-40px)}65%{transform:rotate(13deg) translateX(45px)}}
+@keyframes prop-target{0%,35%,100%{transform:translateX(0) scale(1)}48%{transform:translate(25px,-13px) scale(1.21)}}
+@keyframes prop-music{0%{transform:translate(0,15px) rotate(-16deg);opacity:.65}100%{transform:translate(25px,-60px) rotate(19deg);opacity:1}}
+@keyframes prop-glow{0%,100%{transform:scale(.76);filter:drop-shadow(0 0 5px #fff5a8)}50%{transform:scale(1.35);filter:drop-shadow(0 0 33px #f8cb89)}}
+@keyframes prop-walk{0%{transform:translateX(-20px);opacity:0}30%{opacity:1}100%{transform:translateX(35px);opacity:0}}
+@keyframes theatre-float{0%{transform:translateY(40px) rotate(0);opacity:0}45%{opacity:.9}100%{transform:translateY(-95px) rotate(120deg);opacity:0}}
+@keyframes theatre-sun{from{transform:scale(.9)}to{transform:scale(1.17)}}
+.theatre-cue{position:absolute;bottom:13px;left:16px;right:16px;z-index:7;display:flex;gap:16px;align-items:center;padding:13px 16px;border:2px ridge #c8a274;background:linear-gradient(110deg,#1c101dec,#382332db);box-shadow:0 8px 23px #050409b8;font-size:clamp(12px,1.35vw,17px)}.theatre-cue b{white-space:nowrap;color:#ffe9bd;font:20px Georgia,'Malgun Gothic',serif}.theatre-cue span{color:#f6e6d9}
+.theatre-float{position:absolute;left:50%;bottom:68%;z-index:8;opacity:0;pointer-events:none;color:#fff1d0;font-weight:bold;text-shadow:0 0 9px #a66b48;background:#251427dd;padding:4px 11px;border-radius:18px;border:1px solid #e8c793}.theatre-float.theatre-pop{animation:theatre-pop 1.1s ease forwards}
+@keyframes theatre-pop{0%{transform:translateY(10px) scale(.8);opacity:0}35%{opacity:1}100%{transform:translateY(-54px) scale(1.1);opacity:0}}
+.theatre-meter{padding:11px 22px 5px;flex:none}.theatre-meter-line{height:8px;border:1px solid #cb9c60;background:#150f17;border-radius:15px;overflow:hidden}.theatre-meter-line span{display:block;width:0;height:100%;background:linear-gradient(90deg,#678db1,#9bca9d,#e9bd6c);box-shadow:0 0 15px #eed58f}.theatre-narrator{text-align:center;color:#d0b9ad;font-size:12px;margin-top:7px}.theatre-controls{display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;padding:8px 12px 17px}.theatre-button{color:#21121a;background:linear-gradient(#ffe8bb,#d2a66b);font-weight:750;border:1px solid #ffe8b7;border-radius:4px;padding:10px 18px;min-height:40px;box-shadow:0 3px 10px #09060c77}.theatre-button:hover{filter:brightness(1.12);transform:translateY(-1px)}.theatre-button:focus-visible{outline:3px solid #fff}.theatre-button.alt{background:#38262c;color:#f4dbb5;border:1px solid #ae875e}
+#animation-root.theatre-paused .theatre-world *,#animation-root.theatre-paused .theatre-world{animation-play-state:paused!important}
+@media(max-width:760px){.theatre-backdrop{padding:5px!important}.theatre-shell{width:100%;max-height:98dvh}.theatre-top{min-height:72px;padding:10px 13px}.theatre-top small{font-size:8px;letter-spacing:1px}.theatre-top h2{font-size:19px}.theatre-round{font-size:12px}.theatre-world{height:min(58dvh,520px);min-height:240px;--as:.7}.theatre-actor-wrap{left:calc(50% - 125px);bottom:-7%}.theatre-prop{font-size:44px}.scene-cook .prop-one,.scene-sword .prop-one,.scene-cast .prop-one{font-size:70px}.theatre-cue{left:6px;right:6px;bottom:6px;padding:8px;gap:8px;flex-direction:column;align-items:flex-start}.theatre-cue b{font-size:14px}.theatre-cue span{font-size:11px}.theatre-distant{font-size:46px}.theatre-meter{padding:8px 13px 4px}.theatre-controls{padding:7px 8px 12px;gap:5px}.theatre-button{font-size:11px;padding:6px 8px;min-height:38px}.theatre-narrator{font-size:10px}}
+@media(max-width:390px){.theatre-world{height:min(55dvh,430px);--as:.62}.theatre-top{min-height:62px}.theatre-round{font-size:10px}.theatre-cue{line-height:1.2}}
+@media(prefers-reduced-motion:reduce){.theatre-world *, .theatre-world{animation-duration:.01ms!important}.theatre-avatar{animation:none!important}}
+/* Battle characters now have locally animated eight-frame sprites, not static full-screen portraits. */
+.combat-hero-sprite{width:250px;height:392px;background-image:url('assets/sprites/sword.webp');background-repeat:no-repeat;background-size:2000px 392px;animation:theatre-frames 1.3s steps(8) infinite;transform:scale(.75);transform-origin:center bottom;margin:-73px auto 0}
+.combat-enemy{animation:enemy-breath 1.45s ease-in-out infinite;filter:drop-shadow(0 5px 10px #11040a)}
+@keyframes enemy-breath{0%,100%{transform:scale(.95) translateY(2px)}50%{transform:scale(1.08) translateY(-12px)}}
+.combat-scene.battle-flash-strike .combat-hero-sprite{animation:theatre-frames .3s steps(8) infinite,battle-lunge .65s ease-out}
+.combat-scene.battle-flash-magic .combat-hero-sprite{animation:theatre-frames .42s steps(8) infinite;filter:drop-shadow(0 0 22px #96d3ff)}
+.combat-scene.battle-flash-guard .combat-hero-sprite{filter:drop-shadow(0 0 22px #ffe8a6)}
+.combat-scene.battle-flash-strike .combat-enemy,.combat-scene.battle-flash-magic .combat-enemy{animation:enemy-hit .55s ease-in-out 2}
+@keyframes battle-lunge{0%,100%{transform:scale(.75) translateX(0)}55%{transform:scale(.8) translateX(55px)}}
+@keyframes enemy-hit{0%,100%{transform:translateX(0);filter:brightness(1)}35%{transform:translateX(14px);filter:brightness(2.5) drop-shadow(0 0 22px red)}}
+@media(max-width:760px){.combat-hero-sprite{transform:scale(.55);margin:-155px auto -35px;min-height:392px}.combat-scene.battle-flash-strike .combat-hero-sprite{animation:theatre-frames .4s steps(8) infinite}}
